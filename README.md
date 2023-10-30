@@ -8,6 +8,8 @@ Trope detection using LLaMA
 * dataset - contains all the data
 * report - contains report pdf
 
+Before running the scripts, please download the Universal Sentence Encoder model from - https://tfhub.dev/google/universal-sentence-encoder-large/5 and unzip it into the folder `universal-sentence-encoder-large_5`
+
 ## julyter notebooks-
 1. `LLaMA.ipynb` - 
 2. `select tropes.ipynb` -
