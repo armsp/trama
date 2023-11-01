@@ -1,75 +1,34 @@
 # trama
 Trope detection using LLaMA
 
+## Important first steps
+1. The tropes dataset in the dataset folder is a subset of the original tvtropes dataset - https://github.com/dhruvilgala/tvtropes. Please download the original dataset if you want to run the jupyter notebooks that create my dataset.
+2. USE is too large to be pushed here. Please download the Universal Sentence Encoder model from - https://tfhub.dev/google/universal-sentence-encoder-large/5 and unzip it into the folder `universal-sentence-encoder-large_5`
+3. 
 ## Folders
-* llama_tokenizer contains tokenizer model files cloned from huggingface without the actual models
-* euler Contains the scripts used to run the LLaMA 2 trope extraction scripts, including all the details about environment setup and job submission script
-* universal-sentence-encoder-large_5 contains the use model from Google, since its too large its formed and the model is downloaded only if you run the notebook/script
-* dataset - contains all the data
-* report - contains report pdf
-
-Before running the scripts, please download the Universal Sentence Encoder model from - https://tfhub.dev/google/universal-sentence-encoder-large/5 and unzip it into the folder `universal-sentence-encoder-large_5`
+* `dummy_llama2` contains tokenizer model files cloned from huggingface without the actual models
+* `euler` Contains the scripts used to run the LLaMA 2 trope extraction scripts, including all the details about environment setup and job submission script
+* `universal-sentence-encoder-large_5` contains the use model from Google, since its too large its formed and the model is downloaded only if you run the notebook/script
+* `dataset` - contains all the datasets
+* `report` - contains report pdf along with the latex project files.
 
 ## julyter notebooks-
-1. `LLaMA.ipynb` - 
-2. `select tropes.ipynb` -
-3. `semantic_search.ipynb` - 
-4. `story_dataset_maker.ipynb` - 
-5. `story_summaries.ipynb` - 
-6. `story_vectors.ipynb` - 
-7. `trope_examples_dataset.ipynb` -
-8. `trope_vectors.ipynb` - 
-9. `visuals.ipynb` - 
-
-## Tasks
-- [x] Filter Tropes to study
-- [ ] Check how many of these tropes are inherently understood by the LLM
-- [ ] Make the dataset of stories where there are tropes that you have filtered, most importantly the tropes that the LLM does not understand.
-- [ ] Test for the trope without finetuning - just ask
-- [ ] Prompt with description and then ask
-- [ ] Finetune and then ask
-
-How to decide between Prompting and Finetuning?
-
-## Stories Dataset
-1. New Yorker Flash Fiction stories - around 35+
-2. Reedsy Flash Fiction - https://reedsy.com/discovery/blog/best-flash-fiction
-3. https://tinhouse.com/category/fiction/ - not yet scraped
-4. https://www.flashfictiononline.com/ - not yet scraped
-5. 
+2. `select_tropes.ipynb` - Steps for selecting 500 tropes
+4. `story_dataset_maker.ipynb` - Make stories dataset from story files
+5. `story_summaries.ipynb` - Add summaries to stories
+7. `trope_examples_dataset.ipynb` - Make trope_examples dataset for similarity analysis
+9. `visuals.ipynb` - Get token counts for stories and summaries and generate plots
+10. `semantic_search.ipynb` - testing if semantic search works at a small scale. The code was used to run on Euler as a script.
+11. similarity dataset and analysis
+12. story and trope llama testing and dataset generation
 
 
-U+2019 character needs to be replaced with regular apostrophe - '
+Non chat LLaMA 2 models were NOT used becasue those models are not finetuned for chat or Q&A. They should be prompted so that the expected answer is the natural continuation of the prompt.
 
-## Running LLaMA 2 7b
-Make the language output maximum sequence it can
-LLaMA prompt tuning?
-How to make it output everything it knows in multiple iterations since probably one output is not enough??
-Check how many tropes it knows
-Check how many it can identify prior to any thing by inputting it stories -> Look below for how
-
-"Turn On" the model
-iterate over the stories and ask it to list all the tropes it can identify and to give reasons for each identified trope
----
-All models support sequence length up to 4096 tokens, but we pre-allocate the cache according to max_seq_len and max_batch_size values. So set those according to your hardware.
-These models are not finetuned for chat or Q&A. They should be prompted so that the expected answer is the natural continuation of the prompt.
-
-## Prompting vs Finetuning
-
-
-## Immediate TODO
-- LLaMA base test for a certain thing.
-- QLORA fine tuning
-- Test again
-
-LLaMA Models
-- [ ] 7B
-- [ ] 13B
-- [ ] 70B
-
-## Time Distribution
-Dataset Preparation and gathering: ~9 hours
-LLaMA Research: 
-LLaMA Prompting vs Fine tuning experiment: 
-Testing and Validation:
-
+## Time Distribution (55 hours to allocate at minimum)
+Dataset Preparation and gathering and analysis: ~10 hours
+LLaMA Research: Just getting it to run on Euler without crashing took too long to figure out becasue of lack of documentation for slurm systems and useless error messages : ~10 hours
+LLaMA experiments: This was the most time consuming task since majority of the jobs submitted to euler failed or didn't yield good results - ~ 20 hours
+Semantic Similarity: Running semantic similarity generally took nearly 24 hours and analysis of the outcome also took a lot of time - ~ 10 hours
+Testing and Validation: ~10 hours
+Total: significantly more than 60 hours
