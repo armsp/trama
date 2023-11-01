@@ -1,6 +1,26 @@
 # trama
 Trope detection using LLaMA
 
+## Folders
+* llama_tokenizer contains tokenizer model files cloned from huggingface without the actual models
+* euler Contains the scripts used to run the LLaMA 2 trope extraction scripts, including all the details about environment setup and job submission script
+* universal-sentence-encoder-large_5 contains the use model from Google, since its too large its formed and the model is downloaded only if you run the notebook/script
+* dataset - contains all the data
+* report - contains report pdf
+
+Before running the scripts, please download the Universal Sentence Encoder model from - https://tfhub.dev/google/universal-sentence-encoder-large/5 and unzip it into the folder `universal-sentence-encoder-large_5`
+
+## julyter notebooks-
+1. `LLaMA.ipynb` - 
+2. `select tropes.ipynb` -
+3. `semantic_search.ipynb` - 
+4. `story_dataset_maker.ipynb` - 
+5. `story_summaries.ipynb` - 
+6. `story_vectors.ipynb` - 
+7. `trope_examples_dataset.ipynb` -
+8. `trope_vectors.ipynb` - 
+9. `visuals.ipynb` - 
+
 ## Tasks
 - [x] Filter Tropes to study
 - [ ] Check how many of these tropes are inherently understood by the LLM
@@ -52,24 +72,4 @@ Dataset Preparation and gathering: ~9 hours
 LLaMA Research: 
 LLaMA Prompting vs Fine tuning experiment: 
 Testing and Validation:
-
-# Folders
-llama_tokenizer contains tokenizer model files cloned from huggingface without the actual models
-
-# Euler 
-Contains the scripts used to run the LLaMA 2 trope extraction scripts, including all the details about environment setup and job submission script
-
-# universal-sentence-encoder-large_5
-contains the use model from Google
-
-# julyter notebooks-
-1. `LLaMA.ipynb` - 
-2. `select tropes.ipynb` -
-3. `semantic_search.ipynb` - 
-4. `story_dataset_maker.ipynb` - 
-5. `story_summaries.ipynb` - 
-6. `story_vectors.ipynb` - 
-7. `trope_examples_dataset.ipynb` -
-8. `trope_vectors.ipynb` - 
-9. `visuals.ipynb` - 
 
