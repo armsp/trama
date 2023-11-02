@@ -3,6 +3,7 @@
 % Language setting
 % Replace `english' with e.g. `spanish' to change the document language
 \usepackage[english]{babel}
+\usepackage[table,xcdraw]{xcolor}
 
 % Set page size and margins
 % Replace `letterpaper' with`a4paper' for UK/EU standard size
@@ -23,6 +24,10 @@
 \usepackage{upquote}
 \usepackage{biblatex}
 \usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{diagbox}
+\usepackage{mathabx}
+\usepackage{float}
 % \addbibresource{trama.bib}
 \bibliography{trama.bib}
 \title{Trope detection using LLaMA 2 \\
@@ -38,11 +43,13 @@
 \maketitle
 
 \begin{abstract}
-Using LLaMA 2 for \cite{touvron_2023_llama}
+Using LLaMA 2 for \cite{touvron_2023_llama}...add summary here.
+\\
+This research bridges the gap between computational linguistics and literary analysis, offering a novel perspective on the automated extraction of tropes from textual narratives. The findings from this early stage study provides insights for researchers, authors, and enthusiasts seeking to gain a deeper understanding of storytelling conventions and their applications in the digital age through the lens of tropes and leveraging Large Language Models (LLMs).
 \end{abstract}
 
 \section{Introduction}
-I want to find out if it is possible to use semantic similarity and prompting to extract tropes\footnote[1]{A narrative trope is a common or overused element in storytelling that helps to convey certain themes or ideas. These can include things like the "chosen one" trope, where a protagonist is destined for greatness, or the "fish out of water" trope, where a character is placed in an unfamiliar environment. Narrative tropes can be used to create a sense of familiarity or comfort for audiences, but they can also be subverted or played with in order to add complexity and depth to a story.} from short-stories. It broadly utilizes information retreival, embeddings, prompting and Large Language Models (LLMs). The input is a short story/flash fiction and the output is a list of tropes.
+I want to find out if it is possible to use semantic similarity and prompting to extract tropes\footnote[1]{A narrative trope is a common or overused element in storytelling that helps to convey certain themes or ideas. These can include things like the "chosen one" trope, where a protagonist is destined for greatness, or the "fish out of water" trope, where a character is placed in an unfamiliar environment. Narrative tropes can be used to create a sense of familiarity or comfort for audiences, but they can also be subverted or played with in order to add complexity and depth to a story.} from shortstories. It broadly utilizes information retrieval, embeddings, prompting and LLMs. The input is a short story/flash fiction and the output is a list of tropes.
 
 \section{Data set}
 
@@ -56,12 +63,12 @@ This dataset was curated manually from the following sources -
   \item Literature Collection - http://www.literaturecollection.com/
   \item The New Yorker Flash Fiction - https://www.newyorker.com/books/flash-fiction
 \end{itemize}
-The dataset was curated manually becasue of lack of clean dataset of human authored shortstories or flash fiction. The context of LLaMA 2 was a deciding factor for the length of stories. It has a maximum context of 4096 tokens and using `rope scaling' in the transformer version of LLaMA 2, the context can be doubled to 8192 tokens. Majority of the stories fit in that context window.
+The dataset was curated manually because of lack of clean dataset of human authored shortstories or flash fiction. The context of LLaMA 2 was a deciding factor for the length of stories. It has a maximum context of 4096 tokens and using `rope scaling' in the transformer version of LLaMA 2, the context can be doubled to 8192 tokens. Majority of the stories fit in that context window.
 
 Every shortstory is a separate file in the ``dataset" folder in the repository\footnote[2]{\url{https://github.com/armsp/trama}}. The structure of the text in each story file is described in Appendix \ref{appendix:a}.
 
 \subsubsection{Story Summaries}
-Summaries of stories were generated using `GPT 3.5 Turbo 16k" at two different temperatures - 1 and 1.4. See \href{https://github.com/armsp/trama/blob/main/story_dataset_maker.ipynb}{story\_dataset\_maker.ipynb} and \href{https://github.com/armsp/trama/blob/main/story_summaries.ipynb}{story\_summaries.ipynb} for the steps used to create the dataset and summaries. There are many ways to summarize a story. See Appendix \ref{appendix:h}. Tropes are essentially an outcome of plot and character developments hence the prompt used was the following - 
+Summaries of stories were generated using `GPT 3.5 Turbo 16k" at two different temperatures - 1 and 1.4. See \href{https://github.com/armsp/trama/blob/main/story_dataset_maker.ipynb}{story\_dataset\_maker.ipynb} and \href{https://github.com/armsp/trama/blob/main/story_summaries.ipynb}{story\_summaries.ipynb} for the steps used to create the dataset and summaries. There are many ways to summarize a story. See Appendix \ref{appendix:f}. Tropes are essentially an outcome of plot and character developments hence the prompt used was the following - 
 \begin{lstlisting}
   [{"role": "system", "content": "You provide a detailed summary of the given story. Focus on the plot line and character development."},
   {"role": "user", "content": <story>}]
@@ -95,7 +102,7 @@ The tropes dataset is a subset of the original tvtropes dataset \cite{gala-etal-
 \href{https://github.com/armsp/trama/blob/main/dataset/my_tropes.csv}{my\_tropes.csv} file consists of examples of the selected tropes from literature and goodreads. In total we select 500 tropes to study. 400 of the tropes are the most common tropes in literature and goodreads (the selected tropes are common to both). Similarly, the remaining 100 tropes are the less common tropes from literature and goodreads. See Appendix \ref{appendix:c} for an example of the first few rows of the dataset. See \href{https://github.com/armsp/trama/blob/main/select%20tropes.ipynb}{select\_tropes.ipynb} for the steps used to prepare the dataset.
 
 \subsubsection{Trope Examples}
-The 500 tropes selected above were used to extract examples of those tropes from literature and film examples. In total there are 2,88,782 examples. Literature and film examples were chosen and Tv was ignored. See \href{https://github.com/armsp/trama/blob/main/trope_examples_dataset.ipynb}{trope\_examples\_dataset.ipynb} for the steps used to create the dataset.
+The 500 tropes selected above were used to extract examples of those tropes from literature and film examples\footnote[1]{the tvtropes dataset has examples of tropes that contain the trope names, titles, and examples across each form of media - tv, film and literature}. In total there are 1,86,899  examples. Literature and film examples were chosen and Tv was ignored. See \href{https://github.com/armsp/trama/blob/main/trope_examples_dataset.ipynb}{trope\_examples\_dataset.ipynb} for the steps used to create the dataset.
 \\
 \\
 \noindent The Tvtropes dataset was chosen because it is the only known textual dataset of tropes.
@@ -111,44 +118,132 @@ The 500 tropes selected above were used to extract examples of those tropes from
 It was not necessary to perform substantial pre-processing because of the nature of the models used. The tokenization is generally part of open source pipelines. The only pre-processing that I perform is to remove leading and trailing whitespace,  `\textbackslash t', `\textbackslash n', and `\textbackslash r' from the tropes and stories dataset. 
 
 \section{Experiments}
-Why USE?
-This was mostly based on prior experience. For longer texts and paragraphs USE had performed better than other models like Sentence Transformer.
-For semantic search, I used USE\cite{cer_2018_universal} to get embeddings for summaries, full text of stories and examples of tropes. 
-\section{Evaluation}
+My first attempt was to use prompt engineering to extract all the tropes. However prompting is not an exact science. Since this was a specialized task, to come up with the best possible prompt I explored many combinations of System Prompts and User Messages to find the best combination. However I realized after spending a lot of time on manually finding the best pair, that this is not the best use of time. Prompting will never output all the tropes in a given story since its a very broad task. LLMs are most useful when the prompts are very specific. However in that time I was able to make the following matrix of System Prompt and User Message combinations. See Appendix \ref{appendix:e} for System Prompts and User Messages.
 
-This is understandably the most important but also the most difficult task.
+\begin{table}[H]
+  \resizebox{3cm}{!}{%
+  \begin{tabular}{ll}
+  \multicolumn{2}{l}{\textbf{Legend}}           \\
+  \cellcolor[HTML]{32CB00} & Correct and usable \\
+  \cellcolor[HTML]{FFFF00} & Limited usability  \\
+  \cellcolor[HTML]{FF0000} & Wrong and unusable
+  \end{tabular}%
+  }
+\end{table}
+\vspace{-2em}
+\begin{table}[H]
+  
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+    % \diagbox[]{User msg}{System Prompt}&
+  \textbf{\tiny User Msg/System Prompt} &
+    \textbf{S1} &
+    \textbf{S2} &
+    \textbf{S3} &
+    \textbf{S4} &
+    \textbf{S5} &
+    \textbf{S6} &
+    \textbf{S7} &
+    \textbf{S8} &
+    \textbf{S9} &
+    \textbf{S10} \\ \hline
+  \textbf{U1} & 
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FE0000} &
+    \cellcolor[HTML]{FE0000} &
+    \cellcolor[HTML]{FE0000} &
+    \cellcolor[HTML]{FE0000} &
+    \cellcolor[HTML]{32CB00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FFFF00} \\ \hline
+  \textbf{U2} &
+    \cellcolor[HTML]{FE0000} &
+    \cellcolor[HTML]{F8FF00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{32CB00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{32CB00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FE0000} \\ \hline
+  \textbf{U3} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FE0000} &
+    \cellcolor[HTML]{32CB00} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FE0000} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FE0000} &
+    \cellcolor[HTML]{FFFF00} &
+    \cellcolor[HTML]{FFFF00}
+  \end{tabular}%
+  }
+\end{table}
+My second experiment was to use semantic similarity to identify tropes in stories. The idea was to compute cosine similarity of summaries of stories with examples of tropes. For that, I used USE\cite{cer_2018_universal} to get embeddings for summaries, full text of stories and examples of tropes. 
+I chose USE because in my experience for longer texts and paragraphs it had performed better than other models like Sentence Transformer. After getting the cosine similarity of each story with the trope examples, I filtered and then selected the top 10 tropes for each story. Finally I asked LLaMA 2 70b itself if those tropes are indeed present in the story.
+
+
+
+\section{Evaluation}
+This is understandably the most important but also the most difficult task. Initially the plan was to perform a manual validation of tropes identified through semantic similarity. However, that proved to be infeasible. Therefore I used LLaMA 2 itself to ask if a trope exists in the story. LLaMA 2 13b gets somethings correct and some wrong.
+
 There are also some very good examples where it identifies tropes that you wouldn't think of in the first place.\\
 \textbf{Correct identifications}\\
-Story Title - Trope with reason for trope in the story - Comments
-\begin{itemize}
-  \item \textit{Where are you? - The story's use of the "Verbal Irony" trope, where the words and actions of the characters have a different meaning than their literal meaning, such as the husband's "Hello? Hello?" calls, which are not actually a request for the wife's location, but a way for him to assert his power and control over her.} - This is a correct identification.
-\end{itemize}
+(Story Title - Trope with reason for trope in the story - Comments)
 
-There are certainly many tropes that LLaMA 2 13b gets wrong. The following are just some of the examples:\\
+\textit{Where are you? - The story's use of the "Verbal Irony" trope, where the words and actions of the characters have a different meaning than their literal meaning, such as the husband's "Hello? Hello?" calls, which are not actually a request for the wife's location, but a way for him to assert his power and control over her.} - This is a correct identification.
+
+There are certainly many tropes that LLaMA 2 13b gets wrong. The following are just some of the examples:
+\\
+\\
 \textbf{Wrong identifications}\\
-Story Title - Trope : Reason for trope in the story - Comments\\
+(Story Title - Trope : Reason for trope in the story - Comments)\\
 \begin{itemize}
-  \item \textit{A RETRIEVED REFORMATION - The Faked Death: Jimmy "dies" as Ralph D. Spencer and is reborn as Jimmy Valentine to escape his criminal past and start a new life.} - This is clearly a wrong assesment of the story.
+  \item \textit{A Retrieved Reformation - The Faked Death: Jimmy "dies" as Ralph D. Spencer and is reborn as Jimmy Valentine to escape his criminal past and start a new life.} - This is clearly a wrong assessment of the story.
   \item \textit{The Boss - The Masked Face: The woman's face is masked in shadow, adding to the story's mystery and potential for hidden motives.} - Sometimes it thinks purely aesthetic choices as tropes.
-  \item \textit{Where are you? - The "Unseen Observer" trope, as the wife is often described as being "elsewhere" in the house, even though she is physically present in the same space as the husband.} - This is also not a correct assessment.
+  % \item \textit{Where are you? - The "Unseen Observer" trope, as the wife is often described as being "elsewhere" in the house, even though she is physically present in the same space as the husband.} - This is also not a correct assessment.
+\end{itemize}
+Finally, for the most accurate results I used the largest LLaMA 2 model to ask if a given trope exists in a story.\\
+\\
+TODO
+* Did it improve?
+* Difference between tropes detected using story embeddings vs story summary embeddings.
+
+\section{Outcome}
+\begin{itemize}
+  \item In terms of idea, a significant contribution was to show that stories are a nuanced representation of multiple tropes in general as the evidence shows (tropes extracted from summaries were more accurate than tropes extracted from story text itself). This was an original idea and worked very well for semantic similarity.
+  \item This is a valuable first step towards literary analysis of narratives -
+  \begin{itemize}
+    \item we can explore augmenting AI writing platforms for authors using insights from this project
+    \item we can study evolution of tropes in works of narratives over time
+  \end{itemize}
+  \item A dataset of tropes (selected) for shortstories. 
+  \item Most important thing is that this analysis and pipeline can be made more robust and run on a larger set of stories while using the full tropes dataset to make a more complete dataset of tropes in stories.
+  \item This is the only work as of now that explores using LLM for this task and also shows that LLMs are indeed useful for the task. 
+  \item All the experiments and code is open sourced on GitHub.
 \end{itemize}
 
 \section{Future work}
-Extracting information from LLMs for niche tasks is not a trvial matter. Becasue of RLHF and limited context window LLMs generally prefer to output 3 or 5 or 10 examples when asked for a list of any kind. However they may have more information. See Appendix Z where I ask LLaMA 2 to list all the tropes it knows of. Therefore figuring out a direct way to query the LLM to extract tropes is an interesting problem statement.
-
-I think the task of querying the LLM for the existence of a certain trope can be made faster by optimizing the semantic similarity pipeline. Different tropes also do not have similar number of examples. Therefore coming up with a more robust averaging approach will help in correctly identifying tropes.
-
-The most important task that we can also work on is how to represent stories themselves for the semantic similarity task. Stories are a nuanced representation of multiple tropes in general. Therefore representing the whole story as a vector embedding is perhaps not the best approach. Their length also dictates how diluted the embeddings are. To mitigate that I came up with the approach to summarize the story focusing on plot and character developments becasue tropes are centered around plots and characters. Note there are many ways to summarize a story, see Appendix H.
-
-Throughout the course of working on the project I realized that even though some tropes are undoubtly present, for many of the tropes it becomes rather subjective and for some it could even be countentious.
+\begin{itemize}
+  \item The task of querying the LLM for the existence of a certain trope can be made faster by optimizing the semantic similarity pipeline. Currently it utilizes batch input and vectorized calculations. However the end to end analysis pipeline is still quite slow.
+  \item Different tropes also do not have similar number of examples. Therefore coming up with a more robust ranking approach will help in correctly identifying tropes.
+  \item The most important task that we can also work on is how to represent stories themselves for the semantic similarity task. Representing the whole story as a vector embedding is perhaps not the best approach. Their length also dictates how diluted the embeddings are. To mitigate that I came up with the approach to summarize the story focusing on plot and character developments because tropes are centered around plots and characters. However this can be ``finetuned'' more such that extracting tropes becomes more accurate.
+  \item Throughout the course of the project I realized that even though some tropes are undoubtedly present, for many of the tropes it becomes rather subjective and for some it could even be contentious.
+  \item Within two weeks I plan to test if guidance works with chat versions of LLaMA 2 based on some feedback on the github issue I created\footref{issue}. If it works then I plan to submit a pull request. 
+\end{itemize}
 
 \section{Current challenges}
-\subsubsection{Formatted output}
-\subsubsection{Prompt Engineering}
-Being able to extract all the tropes at once - it is certainly has the knowledge of all the tropes but wen it comes to listing then because of how instruction tuning was performed on the pretrained mode, it generally outputs 5 or 10 outputs. And being able to extract all the tropes was certainly a challenge and I would admit has still not been solved. 
-Guidance does not work with Chat LLaMA 2
-\subsubsection{Embeddings}
-Representing whole stories as embeddings ...
+\subsection{Complexity}
+This project turned out to be too complex for one individual to handle. Ranging from setting up job pipelines on Euler to LLM output analysis and waiting for sometimes a whole day for the semantic similarity code to run and fail in the end was quite frustrating. Because of all these bottlenecks and unexpected failures and lack of time I could not explore this project as much as I wanted to.
+\subsection{Formatted output}
+Initially I attempted to make LLaMA 2 output structured JSON of tropes(so that we can easily test and create a dataset of tropes per story) however after many tries I realized that its too unstable to create a pipeline around. The reason for that boils down to fine tuning and RLHF. Models like GPT3.5 and GPT4 have been finetuned on significantly more data where they learn the nuances of JSON output. They also benefit from projects like \href{https://github.com/langchain-ai/langchain}{Langchain} and \href{https://github.com/guidance-ai/guidance}{Guidance} that make sure that the model output is as expected. However, support for LLaMA 2 chat models is yet to come\footnote[1]{https://github.com/guidance-ai/guidance/issues/397\label{issue}}.
+
+\subsection{Prompt Engineering}
+Extracting information from LLMs for niche tasks is not a trivial matter. LLaMA 2 certainly has the knowledge of many tropes (see Appendix \ref{appendix:g} where I iteratively ask it to list as many tropes it knows of) but when it comes to listing then exhaustively it fails. This is because of instruction tuning, RLHF and limited context window. It generally prefers to output 3 or 5 or 10 examples when asked for a list of any kind. However they may have more information. Therefore figuring out a direct way to query the LLM to extract tropes is an interesting problem statement. And being able to extract all the tropes was certainly a challenge and has still not been solved. 
 
 \printbibliography
 \clearpage
@@ -168,7 +263,8 @@ My mother isn’t always Raggedy Ann, but she was when I was born. Week before H
 A cat whose tail was longer than her skirt laid Raggedy Ann in the bathtub and closed the moldy curtain. Her limbs stayed limp while people pissed nearby, and the tangled nest of red yarn remained on her head, drenched with sweat, for Raggedy Ann is loyal and true. Only I was able to bring her to life, each shock of me making bone and blood of her soft body, carving chambers into her two-dimensional valentine heart.
 
 \section{Appendix B}
-List of Stories in the stories dataset - Link
+\label{appendix:b}
+List of Stories in the stories dataset -
 % Please add the following required packages to your document preamble:
 % \usepackage{longtable}
 % Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
@@ -265,12 +361,14 @@ List of Stories in the stories dataset - Link
   The Hostage                                       & Amelia Gray                \\ \hline
   \end{longtable}
 
-\subsection{Appendix C}
+\section{Appendix C}
+\label{appendix:c}
 % Please add the following required packages to your document preamble:
 % \usepackage[normalem]{ulem}
 % \useunder{\uline}{\ul}{}
 % \usepackage{longtable}
 % Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
+Trope definitions -
 \begin{longtable}{p{0.1\linewidth} | p{0.35\linewidth} | p{0.55\linewidth}}
   \hline
   TropeID &
@@ -296,7 +394,10 @@ List of Stories in the stories dataset - Link
     AbandonedHospitalAwakening &
     An Abandoned Hospital Awakening is, as the name implies, when a character wakes up in an Abandoned Hospital. A combination of several different things in a single convenient package, an abandoned hospital awakening is a popular choice for beginning Horror works, though it shows up in other genres and contexts as well. The hospital used for this has usually been recently abandoned after a disaster of some sort, which helps explain why the character was there in the first place (though not necessarily why they were left behind).\textbackslash{}nAbandoned hospitals are creepy, which sets the tone by itself, but the addition of specific types of Scenery Gorn can ratchet that tension up even further. At the same time, it gives the characters (and the audience) a clue as to why the hospital was abandoned in the first place. Being in a Convenient Coma while the disaster was happening gives them an excuse to be Late to the Tragedy (in some cases finding they have Slept Through the Apocalypse), making them a Naïve Newcomer until they figure things out. If they don't remember why they were in the hospital in the first place, then you've got an Ontological Mystery on your hands in addition to dealing with more immediate problems.\textbackslash{}nEspecially popular during a Zombie Apocalypse, for some reason. See Abandoned Hospital for the supertrope. See Waking Up Elsewhere in general. \\ \hline
   \end{longtable}
-\subsection{Appendix E}
+
+\section{Appendix D}
+\label{appendix:d}
+Trope examples dataset -
 % Please add the following required packages to your document preamble:
 % \usepackage{lscape}
 % \usepackage{longtable}
@@ -337,8 +438,9 @@ List of Stories in the stories dataset - Link
   \end{longtable}
 \end{landscape}
 
-\subsection{Appendix G}
-System Prompts:
+\section{Appendix E}
+\label{appendix:e}
+\textbf{System Prompts}:
 \begin{lstlisting}
 S1 = """You will be given a story. You always output a list of "all" the tropes you found in the context of the story."""
 
@@ -361,7 +463,7 @@ S9 = "You are an expert at finding tropes in narratives. You will be given a sto
 S10 = "You are an expert on the TV Tropes dataset. You will be given a story. You perform a deep analysis of the story and output all the tropes you found in the story."
 \end{lstlisting}
 
-User message:
+\noindent \textbf{User messages}:
 \begin{lstlisting}
 U1 = "{}"
   
@@ -372,8 +474,9 @@ U3 = """List all the tropes you can find after analyzing the story that is in be
 {}
 ---"""
 \end{lstlisting}
-\subsection{Appendix H}
-\label{appendix:h}
+
+\section{Appendix F}
+\label{appendix:f}
 \begin{itemize}
   \item Plot Summary:
   It provides a concise overview of the story's main events. It focuses on the key actions, conflicts, and resolutions. Plot summary gives readers a general idea of what the story is about without delving into too much detail.
@@ -387,8 +490,9 @@ U3 = """List all the tropes you can find after analyzing the story that is in be
   A comparative summary compares the story to other works by the same author or to works in the same genre, highlighting similarities and differences.
 
 \end{itemize}
-\subsection{Appendix I}
-\subsection{Appendix Z}
+
+\section{Appendix G}
+\label{appendix:g}
 \begin{lstlisting}
 Give me a list of all the tropes that you know. List all of them
 Oh my, there are just so many tropes out there! But here's a list of some common ones that come to mind:
