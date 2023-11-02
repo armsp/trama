@@ -49,8 +49,8 @@ export PATH
   - For 7b and 13b models - sbatch -n 4 -t 8:00:00 -J job_name --mem-per-cpu=8192 -G 1 --gres=gpumem:35G -o log_file_%j.log -e error_file_%j.err --wrap=CUDA_VISIBLE_DEVICES=0 python python-file.py
   - For 70b model - sbatch -n 4 -t 8:00:00 -J job_name --mem-per-cpu=8192 -G 4 --gres=gpumem:35G -o log_file_%j.log -e error_file_%j.err --wrap=CUDA_VISIBLE_DEVICES=0,1,2,3 python python-file.py
 
-Non chat LLaMA 2 models were NOT used becasue those models are not finetuned for chat or Q&A. They should be prompted so that the expected answer is the natural continuation of the prompt.
-
+Non chat LLaMA 2 models were NOT used becasue those models are not finetuned for chat or Q&A. They should be prompted so that the expected answer is the natural continuation of the prompt.  
+**NOTE**: Successful execution of Euler jobs assume that you already have the LLaMA 2 models and dataset files and USE model in a persistent storage on Euler itself.
 ## Time Distribution (55 hours to allocate at minimum)
 - Dataset Preparation and gathering and analysis: ~10 hours
 - LLaMA Research: Just getting it to run on Euler without crashing took too long to figure out becasue of lack of documentation for slurm systems and useless error messages : ~10 hours
