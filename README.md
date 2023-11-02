@@ -38,7 +38,8 @@ export PATH
 ```
 3. install packagaes using requirements.txt
 4. `llama` needs to be installed directly from github - `pip install git+https://github.com/facebookresearch/llama.git`
-5. for `torch` use - `pip install torch --index-url https://download.pytorch.org/whl/cu118`
+5. If the requirements.txt file does not install version 4.31.0 or higher of transformers then use - pip install git+https://github.com/huggingface/transformers
+6. for `torch` use - `pip install torch --index-url https://download.pytorch.org/whl/cu118`
 ### Euler files
 - requirements.txt
 - similarity.py
