@@ -4,7 +4,7 @@ Trope detection using LLaMA
 ## Important first steps
 1. The tropes dataset in the dataset folder is a subset of the original tvtropes dataset - https://github.com/dhruvilgala/tvtropes. Please download the original dataset if you want to run the jupyter notebooks that create my dataset.
 2. USE is too large to be pushed here. Please download the Universal Sentence Encoder model from - https://tfhub.dev/google/universal-sentence-encoder-large/5 and unzip it into the folder `universal-sentence-encoder-large_5`
-3. 
+3. Setup Euler
 ## Folders
 * `dummy_llama2` contains tokenizer model files cloned from huggingface without the actual models
 * `euler` Contains the scripts used to run the LLaMA 2 trope extraction scripts, including all the details about environment setup and job submission script
