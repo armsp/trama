@@ -24,7 +24,7 @@ Trope detection using LLaMA
 
 ## Euler setup
 1. setup a virtual environment - `my_venv`
-2. add the following to your .bash_profile -
+2. add the following to your `.bash_profile` -
 ```
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 module load gcc/8.2.0 r/4.0.2 python_gpu/3.9.9
@@ -38,7 +38,7 @@ export PATH
 ```
 3. install packagaes using requirements.txt
 4. `llama` needs to be installed directly from github - `pip install git+https://github.com/facebookresearch/llama.git`
-5. If the requirements.txt file does not install version 4.31.0 or higher of transformers then use - pip install git+https://github.com/huggingface/transformers
+5. If the requirements.txt file does not install version 4.31.0 or higher of transformers then use - `pip install git+https://github.com/huggingface/transformers`
 6. for `torch` use - `pip install torch --index-url https://download.pytorch.org/whl/cu118`
 ### Euler files
 - requirements.txt
@@ -47,10 +47,10 @@ export PATH
 ### Euler job sumission commands
 * For non gpu tasks -  `sbatch -n 1 -t 24:00:00 -J job_name --mem-per-cpu=262144 -o log_file_%j.log -e error_file_%j.err --wrap=python similarity.py` <-- make sure to change according to your files and needs
 * For LLaAM 2 tasks
-  - For 7b and 13b models - sbatch -n 4 -t 8:00:00 -J job_name --mem-per-cpu=8192 -G 1 --gres=gpumem:35G -o log_file_%j.log -e error_file_%j.err --wrap=CUDA_VISIBLE_DEVICES=0 python python-file.py
-  - For 70b model - sbatch -n 4 -t 8:00:00 -J job_name --mem-per-cpu=8192 -G 4 --gres=gpumem:35G -o log_file_%j.log -e error_file_%j.err --wrap=CUDA_VISIBLE_DEVICES=0,1,2,3 python python-file.py
+  - For 7b and 13b models - `sbatch -n 4 -t 8:00:00 -J job_name --mem-per-cpu=8192 -G 1 --gres=gpumem:35G -o log_file_%j.log -e error_file_%j.err --wrap=CUDA_VISIBLE_DEVICES=0 python python-file.py`
+  - For 70b model - `sbatch -n 4 -t 8:00:00 -J job_name --mem-per-cpu=8192 -G 4 --gres=gpumem:35G -o log_file_%j.log -e error_file_%j.err --wrap=CUDA_VISIBLE_DEVICES=0,1,2,3 python python-file.py`
 
-Non chat LLaMA 2 models were NOT used becasue those models are not finetuned for chat or Q&A. They should be prompted so that the expected answer is the natural continuation of the prompt.  
+Non-chat LLaMA 2 models were NOT used becasue those models are not finetuned for chat or Q&A. They should be prompted so that the expected answer is the natural continuation of the prompt.  
 **NOTE**: Successful execution of Euler jobs assume that you already have the LLaMA 2 models and dataset files and USE model in a persistent storage on Euler itself.
 ## Time Distribution (55 hours to allocate at minimum)
 - Dataset Preparation and gathering and analysis: > 10 hours
