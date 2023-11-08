@@ -19,9 +19,8 @@ Trope detection using LLaMA
 7. `trope_examples_dataset.ipynb` - Make trope_examples dataset for similarity analysis
 9. `visuals.ipynb` - Get token counts for stories and summaries and generate plots
 10. `semantic_search.ipynb` - testing if semantic search works at a small scale. The code was used to run on Euler as a script.
-11. similarity dataset and analysis
-12. story and trope llama testing and dataset generation
-
+11. `vectorized_similarity_debug.ipynb` - initially similarity took more than 20 hours to run. After getting the embeddings for the trope examples, I was able to use vectorized calculations to get similarity for stories and summaries in just under a minute.
+12. `trope_validator_13b.ipynb` - this notebook needs GPU to run. Here are the final experiments for validating the tropes filtered by similarity.
 ## Euler setup
 1. setup a virtual environment - `my_venv`
 2. add the following to your `.bash_profile` -
