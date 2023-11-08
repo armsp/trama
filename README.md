@@ -5,6 +5,7 @@ Trope detection using LLaMA
 1. The tropes dataset in the dataset folder is a subset of the original tvtropes dataset - https://github.com/dhruvilgala/tvtropes. Please download the original dataset if you want to run the jupyter notebooks that create my dataset.
 2. USE is too large to be pushed here. Please download the Universal Sentence Encoder model from - https://tfhub.dev/google/universal-sentence-encoder-large/5 and unzip it into the folder `universal-sentence-encoder-large_5`
 3. Setup Euler
+4. Download the trope examples embedding matrix from here - https://drive.google.com/file/d/1-_-kNuHg1op6_u1FcLCiaq_1NDD2sYKD/
 ## Folders
 * `dummy_llama2` contains tokenizer model files cloned from huggingface without the actual models
 * `euler` Contains the scripts used to run the LLaMA 2 trope extraction scripts, including all the details about environment setup and job submission script
@@ -19,9 +20,8 @@ Trope detection using LLaMA
 7. `trope_examples_dataset.ipynb` - Make trope_examples dataset for similarity analysis
 9. `visuals.ipynb` - Get token counts for stories and summaries and generate plots
 10. `semantic_search.ipynb` - testing if semantic search works at a small scale. The code was used to run on Euler as a script.
-11. similarity dataset and analysis
-12. story and trope llama testing and dataset generation
-
+11. `vectorized_similarity_debug.ipynb` - initially similarity took more than 20 hours to run. After getting the embeddings for the trope examples, I was able to use vectorized calculations to get similarity for stories and summaries in just under a minute.
+12. `trope_validator_13b.ipynb` - this notebook needs GPU to run. Here are the final experiments for validating the tropes filtered by similarity.
 ## Euler setup
 1. setup a virtual environment - `my_venv`
 2. add the following to your `.bash_profile` -
@@ -57,5 +57,5 @@ Non-chat LLaMA 2 models were NOT used becasue those models are not finetuned for
 - LLaMA Research: Just getting it to run on Euler without crashing took too long to figure out becasue of lack of documentation for slurm systems and useless error messages : > 10 hours
 - LLaMA experiments: This was the most time consuming task since majority of the jobs submitted to euler failed or didn't yield good results - > 20 hours
 - Semantic Similarity: Running semantic similarity generally took nearly 24 hours and analysis of the outcome also took a lot of time - > 10 hours
-- Testing and Validation: > 10 hours  
-Total: significantly more than 55 hours
+- Testing and Validation: > 15 hours  
+Total: significantly more than 65 hours
