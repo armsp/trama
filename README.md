@@ -51,7 +51,7 @@ export PATH
   - For 70b model - `sbatch -n 4 -t 8:00:00 -J job_name --mem-per-cpu=8192 -G 4 --gres=gpumem:35G -o log_file_%j.log -e error_file_%j.err --wrap=CUDA_VISIBLE_DEVICES=0,1,2,3 python python-file.py`
 
 Non-chat LLaMA 2 models were NOT used becasue those models are not finetuned for chat or Q&A. They should be prompted so that the expected answer is the natural continuation of the prompt.  
-**NOTE**: Successful execution of Euler jobs assume that you already have the LLaMA 2 models and dataset files and USE model in a persistent storage on Euler itself.
+**NOTE**: Successful execution of Euler jobs assume that you already have the LLaMA 2 models and dataset files and USE model in a persistent storage on Euler itself.  
 **NOTE**: Guidance has since been updated (after the submisison of report) to support chat models for LLaMA since I opened the issue - https://github.com/guidance-ai/guidance/issues/397
 
 ## Time Distribution (55 hours to allocate at minimum)
