@@ -52,6 +52,8 @@ export PATH
 
 Non-chat LLaMA 2 models were NOT used becasue those models are not finetuned for chat or Q&A. They should be prompted so that the expected answer is the natural continuation of the prompt.  
 **NOTE**: Successful execution of Euler jobs assume that you already have the LLaMA 2 models and dataset files and USE model in a persistent storage on Euler itself.
+**NOTE**: Guidance has since been updated (after the submisison of report) to support chat models for LLaMA since I opened the issue - https://github.com/guidance-ai/guidance/issues/397
+
 ## Time Distribution (55 hours to allocate at minimum)
 - Dataset Preparation and gathering and analysis: > 10 hours
 - LLaMA Research: Just getting it to run on Euler without crashing took too long to figure out becasue of lack of documentation for slurm systems and useless error messages : > 10 hours
